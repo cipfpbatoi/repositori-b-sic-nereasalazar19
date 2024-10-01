@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if (isset($_POST['reiniciar'])) {
+    session_destroy();
+    header("Location: index.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,27 +20,37 @@
     <h1>4 en Ratlla</h1>
 
     <?php
-    include 'functions.php';
 
-    $graella = inicialitzarGraella();
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $columna = intval($_POST['columna']);
-        $jugadorActual = $_POST['jugadorActual'];
+include 'functions.php';
 
-        if (ferMoviment($graella, $columna, $jugadorActual)) {
-            echo "<p>Moviment realitzat pel jugador $jugadorActual.</p>";
-        } else {
-            echo "<p>Columna plena! Intenta amb una altra columna.</p>";
-        }
+if (!isset($_SESSION['graella'])) {
+    $_SESSION['graella'] = inicialitzarGraella();
+    $_SESSION['jugadorActual'] = 1;
+}
 
-        $jugadorActual = ($jugadorActual == 1) ? 2 : 1;
+$graella = $_SESSION['graella'];
+$jugadorActual = $_SESSION['jugadorActual'];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['reiniciar'])) {
+    $columna = intval($_POST['columna']);
+
+    if (ferMoviment($graella, $columna, $jugadorActual)) {
+        echo "<p>Moviment realitzat pel jugador $jugadorActual.</p>";
     } else {
-        $jugadorActual = 1;
+        echo "<p>Columna plena! Intenta amb una altra columna.</p>";
     }
 
-    pintarGraella($graella);
-    ?>
+    $jugadorActual = ($jugadorActual == 1) ? 2 : 1;
+
+    $_SESSION['graella'] = $graella;
+    $_SESSION['jugadorActual'] = $jugadorActual;
+}
+
+pintarGraella($graella);
+?>
+
+
 
     <form method="post" action="index.php">
         <label for="columna">Escull una columna (0-6):</label>
@@ -40,5 +60,10 @@
 
         <button type="submit">Fer Moviment</button>
     </form>
+
+    <form method="post" action="index.php">
+        <button type="submit" name="reiniciar">Reiniciar Joc</button>
+    </form>
+
 </body>
 </html>
