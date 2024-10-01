@@ -14,8 +14,11 @@
 
     $palabra = "programacion";
 
+    // Se crea el array con el length de la palabra para adivinar rellenado por guiones bajos
+
     $array = array_fill(0, strlen($palabra), '_');
 
+    // Se crean los arrays para almacenar las letras correctas e incorrectas
     $correct_letters = [];
     $incorrect_letters = [];
 
@@ -34,6 +37,8 @@
                 $letra = strtolower($letra);
                 echo "<p>La letra introducida es: " . htmlspecialchars($letra) . "</p>";
 
+                // Se comprueba de que la letra introducida no esté repetida
+
                 if (in_array($letra, array_map('strtolower', $correct_letters)) || in_array($letra, array_map('strtolower', $incorrect_letters))) {
                     echo "<p>Ya has introducido la letra '$letra'. Intenta con otra.</p>";
                 } else {
@@ -43,7 +48,7 @@
                         echo "<p>La letra <span class='incorrect'>$letra</span> no está en la palabra.</p>";
                         $incorrect_letters[] = $letra;
                     } else {
-                        echo "<p>¡Bien hecho! La letra <span class='correct'>$letra</span> está en la palabra.</p>";
+                        echo "<p>La letra <span class='correct'>$letra</span> está en la palabra.</p>";
                         $correct_letters[] = $letra;
                     }
                 }
@@ -55,6 +60,7 @@
         }
     }
 
+    // Se sustituyen los guiones por las letras correctas
     foreach ($correct_letters as $letra_correcta) {
         for ($i = 0; $i < strlen($palabra); $i++) {
             if (strtolower($palabra[$i]) === $letra_correcta) {
@@ -66,6 +72,7 @@
     echo "<h2>Progreso de la palabra:</h2>";
     imprimirArray($array);
 
+    // Para imprimir el historial de letras introducidas
     if (!empty($correct_letters) || !empty($incorrect_letters)) {
         echo "<h2>Letras introducidas:</h2>";
         imprimirLetrasIntroducidas($correct_letters, $incorrect_letters);
