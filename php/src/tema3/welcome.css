@@ -1,0 +1,13 @@
+h3 a {
+    color: black;
+}
+
+h3 a:hover {
+    color: brown;
+    background-color: antiquewhite;
+    transition: 0.3s;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
