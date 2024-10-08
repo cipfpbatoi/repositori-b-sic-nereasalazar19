@@ -1,4 +1,12 @@
 <?php
+
+// Inicialitzar la llista de pàgines visitades si no existeix
+if (!isset($_SESSION['pages'])) {
+    $_SESSION['pages'] = [];
+}
+
+// Afegir la pàgina actual a la llista de pàgines visitades
+$_SESSION['pages'][] = $_SERVER['REQUEST_URI'];
 // Llista d'usuaris predefinits amb contrasenyes en text pla
 $users = [
     'salazarricharte@gmail.com' => 'nerea191204',

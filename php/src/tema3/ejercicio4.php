@@ -1,5 +1,12 @@
 <?php
 session_start();
+// Inicialitzar la llista de pàgines visitades si no existeix
+if (!isset($_SESSION['pages'])) {
+    $_SESSION['pages'] = [];
+}
+
+// Afegir la pàgina actual a la llista de pàgines visitades
+$_SESSION['pages'][] = $_SERVER['REQUEST_URI'];
 
 // Generar y almacenar el token CSRF
 if (!isset($_SESSION['csrf_token'])) {
