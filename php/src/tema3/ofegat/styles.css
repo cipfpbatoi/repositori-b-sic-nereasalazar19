@@ -1,0 +1,10 @@
+.correct {
+    color: green;
+}
+.incorrect {
+    color: red;
+}
+
+body {
+    background-color: bisque;
+}
